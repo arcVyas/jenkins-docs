@@ -39,11 +39,13 @@ pipeline {
     }
     stage('Ask Approval') {
       steps {
-        echo 'Approval'
-        echo 'Done'
+        steps {
+          slackSend color: "good", message: "Woohoo.. New build ready for deployment. Approve? (<${env.BUILD_URL}|Open>)"
+          input(message: 'Can I deploy?', ok: 'Go Ahead', id: '_ready')
+        }
       }
     }
-    stage('Deploy To Dev') {
+    stage('Deploy') {
       steps {
         echo 'Approval'
         echo 'Done'      
